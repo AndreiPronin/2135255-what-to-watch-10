@@ -8,7 +8,7 @@ function FilmList(props:IPropsFilms):JSX.Element{
     <div className="catalog__films-list">
       {
         props.films.map((film)=>
-          <FilmCard key={film.id} film={film} activeVideo={activVideo === film.id} mouseOver={MouseOver} mouseOut={MouseOut} />
+          <FilmCard key={film.id} film={film} IsActiveVideo={activVideo === film.id} mouseOver={MouseOver} mouseOut={MouseOut} />
         )
       }
     </div>

@@ -25,7 +25,7 @@ function MyList(props:IPropsFilms):JSX.Element{
             </div>
           </li>
           <li className="user-block__item">
-            <a className="user-block__link">Sign out</a>
+            <a href='#' className="user-block__link">Sign out</a>
           </li>
         </ul>
       </header>
@@ -36,7 +36,7 @@ function MyList(props:IPropsFilms):JSX.Element{
         <div className="catalog__films-list">
           {
             props.films.map((film)=>
-              <FilmCard key={film.id} film={film} activeVideo={activVideo === film.id} mouseOver={MouseOver} mouseOut={MouseOut} />
+              <FilmCard key={film.id} film={film} IsActiveVideo={activVideo === film.id} mouseOver={MouseOver} mouseOut={MouseOut} />
             )
           }
         </div>

@@ -1,50 +1,34 @@
+import { useEffect } from 'react';
 import FilmList from '../../components/film-list/film-list';
+import FilmNavigate from '../../components/film-navigate/film-navigate';
 import Header from '../../components/header/header';
+import { useAppDispatch,useAppSelector } from '../../hooks';
+import { resetFilmsList, showMoreFilms } from '../../store/action';
 import { IPropsFilms } from '../../types/type-films/Type-Films';
 
 function MainPage(props:IPropsFilms): JSX.Element {
+  const { filmsList,activeFilmsCardsNumber,quantityFilms } = useAppSelector(
+    (state) => state
+  );
+  const isShowMore = quantityFilms > activeFilmsCardsNumber;
+  const dispatch = useAppDispatch();
+  useEffect(() => () => {
+    dispatch(resetFilmsList());
+  }, []);
   return (
     <>
       <Header film={props.films[0]} />
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href='/#' className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='/#' className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='/#' className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='/#' className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='/#' className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='/#' className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='/#' className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='/#' className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='/#' className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='/#' className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
-          <FilmList films={props.films} />
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <FilmNavigate />
+          <FilmList films={filmsList} />
+          {isShowMore && (
+            <div className="catalog__more">
+              <button className="catalog__button" onClick={ ()=>dispatch(showMoreFilms())} type="button">Show more</button>
+            </div>
+          )}
+
         </section>
         <div className="page-footer">
           <div className="logo">
