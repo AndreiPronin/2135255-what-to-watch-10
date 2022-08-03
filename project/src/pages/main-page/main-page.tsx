@@ -14,7 +14,7 @@ function MainPage(props:IPropsFilms): JSX.Element {
   const dispatch = useAppDispatch();
   useEffect(() => () => {
     dispatch(resetFilmsList());
-  }, []);
+  }, [dispatch]);
   return (
     <>
       <Header film={props.films[0]} />

@@ -5,7 +5,7 @@ import {FILMS} from '../Moq/Films-List';
 
 const initialFilmsList = FILMS.slice(0, INITIAL_FILM_CARDS_NUMBER);
 
-const ALL_GENRE = FILMS.map((item) => item.genre).filter((value, index, self) => self.indexOf(value) === index);
+const ALL_GENRE = Array.from(new Set(FILMS.map((item) => item.genre))).map((item) => item);
 const QUANTITY_FILMS = FILMS.length;
 
 const initialState = {

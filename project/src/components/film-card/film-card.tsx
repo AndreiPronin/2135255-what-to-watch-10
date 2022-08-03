@@ -5,14 +5,14 @@ import { IFilm } from '../../types/type-films/Type-Films';
 import VideoPlayer from '../video-player/video-player';
 interface IPropsFilm{
   film:IFilm;
-  IsActiveVideo:boolean;
+  isActiveVideo:boolean;
   mouseOver:React.MouseEventHandler<HTMLElement>;
   mouseOut:React.MouseEventHandler<HTMLElement>;
 }
 function FilmCard(props:IPropsFilm):JSX.Element{
   return(
     <article onMouseOver={props.mouseOver} onMouseOut={props.mouseOut} data-id={props.film.id} className="small-film-card catalog__films-card">
-      <VideoPlayer film={props.film} activeVideo={props.IsActiveVideo} />
+      <VideoPlayer film={props.film} activeVideo={props.isActiveVideo} />
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={`${AppRoute.Film}${props.film.id}`}>
           {props.film.name} дата выхода {props.film.date.toDateString()}

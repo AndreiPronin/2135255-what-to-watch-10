@@ -12,7 +12,7 @@ function FilmNavigate():JSX.Element{
     <ul className="catalog__genres-list">
       <li className={ activeGenre === INITIAL_GENRE ? 'catalog__genres-item catalog__genres-item--active' : 'catalog__genres-item'} >
         <Link to="/" onClick={() => dispatch(changeGenre(INITIAL_GENRE))} className="catalog__genres-link">
-          All Genr
+          All genres
         </Link>
       </li>
       {allGenre.map((item)=>(
