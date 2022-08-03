@@ -1,15 +1,9 @@
 import { createSelector } from 'reselect';
-import { IFilm } from '../types/type-films/Type-Films';
+import {State} from '../types/state';
 
-export interface IPropsFilms{
-  filmsList:IFilm[]
-}
+export const getFilmsList = (state:State) => state.filmsList;
 
-//export const getFilmsList = (state: IPropsFilms) => { return state.filmsList; };
-
-//export const getQuantityFilms = createSelector(
-//  getFilmsList,
-// (films) => {
-//    return films.length;
-//  }
-//);
+export const getQuantityFilms = createSelector(
+  getFilmsList,
+  (films) => films.length
+);

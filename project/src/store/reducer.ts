@@ -6,13 +6,11 @@ import {FILMS} from '../Moq/Films-List';
 const initialFilmsList = FILMS.slice(0, INITIAL_FILM_CARDS_NUMBER);
 
 const ALL_GENRE = Array.from(new Set(FILMS.map((item) => item.genre))).map((item) => item);
-const QUANTITY_FILMS = FILMS.length;
 
 const initialState = {
   allGenre:ALL_GENRE,
   activeGenre: INITIAL_GENRE,
   filmsList: initialFilmsList,
-  quantityFilms:QUANTITY_FILMS,
   activeFilmsCardsNumber: INITIAL_FILM_CARDS_NUMBER,
 };
 
@@ -25,7 +23,6 @@ const reducer = createReducer(initialState, (builder) => {
         payload === INITIAL_GENRE
           ? FILMS
           : FILMS.filter(({ genre }) => genre === payload);
-      state.quantityFilms = filteredList.length;
       state.filmsList = filteredList.slice(0, state.activeFilmsCardsNumber);
     })
     .addCase(showMoreFilms, (state) => {

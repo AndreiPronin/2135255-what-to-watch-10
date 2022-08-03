@@ -5,9 +5,12 @@ import Header from '../../components/header/header';
 import { useAppDispatch,useAppSelector } from '../../hooks';
 import { resetFilmsList, showMoreFilms } from '../../store/action';
 import { IPropsFilms } from '../../types/type-films/Type-Films';
+import {getQuantityFilms} from '../../store/selectors';
+import { useSelector } from 'react-redux';
 
 function MainPage(props:IPropsFilms): JSX.Element {
-  const { filmsList,activeFilmsCardsNumber,quantityFilms } = useAppSelector(
+  const quantityFilms = useSelector(getQuantityFilms);
+  const { filmsList,activeFilmsCardsNumber } = useAppSelector(
     (state) => state
   );
   const isShowMore = quantityFilms > activeFilmsCardsNumber;
