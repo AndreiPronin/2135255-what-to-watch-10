@@ -1,24 +1,31 @@
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import FilmFooter from '../../components/film-footer/film-footer';
 import MenuFilm from '../../components/menu-film/menu-film';
-import { AppRoute } from '../../enums/route-enum';
-import { FILMS } from '../../Moq/Films-List';
-import { IPropsFilms } from '../../types/type-films/Type-Films';
+import { AppRoute, AuthorizationStatus } from '../../enums/route-enum';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getAllComment, getAllFilmAction, getFilm } from '../../services/api-action';
 
-function FilmReview(props:IPropsFilms):JSX.Element{
+
+function FilmReview():JSX.Element{
   const {id} = useParams();
-  const film = FILMS.filter((item)=> (item.id === id))[0];
-  if(film === undefined){
-    return(
-      <Navigate to={AppRoute.NotFound} />
-    );
-  }
+  const dispatch = useAppDispatch();
+  useEffect(() => () => {
+    dispatch(getFilm(id as string));
+    dispatch(getAllComment(id as string));
+    dispatch(getAllFilmAction());
+  },[dispatch,id]);
+  const { filmListAll,comment,authorizationStatus } = useAppSelector(
+    (state) => state
+  );
+  const film = filmListAll.filter((item)=> (item.id === Number(id)))[0];
   return(
     <>
+      { film !== undefined &&
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.img} alt="The Grand Budapest Hotel" />
+            <img src={film.backgroundImage} alt="The Grand Budapest Hotel" />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -49,7 +56,7 @@ function FilmReview(props:IPropsFilms):JSX.Element{
               <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.date.toDateString()}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -66,7 +73,8 @@ function FilmReview(props:IPropsFilms):JSX.Element{
                   <span><Link to={AppRoute.MyList} className="user-block__link">My list</Link></span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link to={`${AppRoute.AddReview}${film.id}`} className="btn film-card__button">Add review</Link>
+                { (authorizationStatus !== AuthorizationStatus.Unknown && authorizationStatus !== AuthorizationStatus.NoAuth) &&
+                <Link to={`${AppRoute.AddReview}${film.id}`} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>
@@ -75,92 +83,36 @@ function FilmReview(props:IPropsFilms):JSX.Element{
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film.img} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={film.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
               <MenuFilm film={film} />
               <div className="film-card__reviews film-card__row">
                 <div className="film-card__reviews-col">
-                  <div className="review">
-                    <blockquote className="review__quote">
-                      <p className="review__text">Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed films in years.</p>
-
-                      <footer className="review__details">
-                        <cite className="review__author">Kate Muir</cite>
-                        <time className="review__date">December 24, 2016</time>
-                      </footer>
-                    </blockquote>
-                    <div className="review__rating">8,9</div>
-                  </div>
-                  <div className="review">
-                    <blockquote className="review__quote">
-                      <p className="review__text">Andersons films are too precious for some, but for those of us willing to lose ourselves in them, theyre a delight. The Grand Budapest Hotel is no different, except that he has added a hint of gravitas to the mix, improving the recipe.</p>
-
-                      <footer className="review__details">
-                        <cite className="review__author">Bill Goodykoontz</cite>
-                        <time className="review__date">November 18, 2015</time>
-                      </footer>
-                    </blockquote>
-                    <div className="review__rating">8,0</div>
-                  </div>
-                  <div className="review">
-                    <blockquote className="review__quote">
-                      <p className="review__text">I didnt find it amusing, and while I can appreciate the creativity, its an hour and 40 minutes I wish I could take back.</p>
-
-                      <footer className="review__details">
-                        <cite className="review__author">Amanda Greever</cite>
-                        <time className="review__date" >November 18, 2015</time>
-                      </footer>
-                    </blockquote>
-                    <div className="review__rating">8,0</div>
-                  </div>
-                </div>
-                <div className="film-card__reviews-col">
-                  <div className="review">
-                    <blockquote className="review__quote">
-                      <p className="review__text">The mannered, madcap proceedings are often delightful, occasionally silly, and here and there, gruesome and/or heartbreaking.</p>
-
-                      <footer className="review__details">
-                        <cite className="review__author">Matthew Lickona</cite>
-                        <time className="review__date">December 20, 2016</time>
-                      </footer>
-                    </blockquote>
-                    <div className="review__rating">7,2</div>
-                  </div>
-
-                  <div className="review">
-                    <blockquote className="review__quote">
-                      <p className="review__text">It is certainly a magical and childlike way of storytelling, even if the content is a little more adult.</p>
-
-                      <footer className="review__details">
-                        <cite className="review__author">Paula Fleri-Soler</cite>
-                        <time className="review__date" >December 20, 2016</time>
-                      </footer>
-                    </blockquote>
-
-                    <div className="review__rating">7,6</div>
-                  </div>
-
-                  <div className="review">
-                    <blockquote className="review__quote">
-                      <p className="review__text">It is certainly a magical and childlike way of storytelling, even if the content is a little more adult.</p>
-
-                      <footer className="review__details">
-                        <cite className="review__author">Paula Fleri-Soler</cite>
-                        <time className="review__date" >December 20, 2016</time>
-                      </footer>
-                    </blockquote>
-
-                    <div className="review__rating">7,0</div>
-                  </div>
+                  { comment.length > 0 && (
+                    comment.map((Item)=>
+                      (
+                        <div key={Item.id} className="review">
+                          <blockquote className="review__quote">
+                            <p className="review__text">{Item.comment}</p>
+                            <footer className="review__details">
+                              <cite className="review__author">{Item.user.name}</cite>
+                              <time className="review__date">{Item.date}</time>
+                            </footer>
+                          </blockquote>
+                          <div className="review__rating">{Item.rating}</div>
+                        </div>
+                      )
+                    )
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-      {<FilmFooter typeFilms={film} films={props.films} />}
+      </section>}
+      {<FilmFooter typeFilms={film} films={filmListAll} />}
     </>
   );
 }

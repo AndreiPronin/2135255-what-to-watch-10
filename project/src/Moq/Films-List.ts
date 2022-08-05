@@ -1,16 +1,15 @@
 import { IFilm } from '../types/type-films/Type-Films';
 
-
-function randomDate(start:Date, end:Date) {
+/* function randomDate(start:Date, end:Date) {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-}
+} */
 
-export const FILMS:IFilm[] = [
-  {id : '1', genre:'Crime',description:'gdfgd',video:'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+export const FILMS:IFilm[] = [];
+/* {id : '1', genre:'Crime',description:'gdfgd',video:'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
     name:'Fantastic Beasts: The Crimes of Grindelwald',
     date: randomDate(new Date(2012, 0, 1), new Date()),
-    img:'img/fantastic-beasts-the-crimes-of-grindelwald.jpg'},
-  {id : '2', genre:'Crime',description:'gdfgd',video:'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    img:'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',},
+   {id : '2', genre:'Crime',description:'gdfgd',video:'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
     name:'Bohemian Rhapsody',
     date: randomDate(new Date(2012, 0, 1), new Date()),
     img:'img/bohemian-rhapsody.jpg'},
@@ -85,5 +84,5 @@ export const FILMS:IFilm[] = [
   {id : '20', genre:'SiFi',description:'gdfgd',video:'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
     name:'Midnight Special',
     date: randomDate(new Date(2012, 0, 1), new Date()),
-    img:'img/midnight-special.jpg'},
-];
+    img:'img/midnight-special.jpg'}, */
+

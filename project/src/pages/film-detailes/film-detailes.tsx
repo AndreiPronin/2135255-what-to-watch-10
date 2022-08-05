@@ -1,24 +1,30 @@
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import FilmFooter from '../../components/film-footer/film-footer';
 import MenuFilm from '../../components/menu-film/menu-film';
-import { AppRoute } from '../../enums/route-enum';
-import { FILMS } from '../../Moq/Films-List';
-import { IPropsFilms } from '../../types/type-films/Type-Films';
+import { AppRoute, AuthorizationStatus } from '../../enums/route-enum';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getAllFilmAction, getFilm } from '../../services/api-action';
 
-function Detailes(props:IPropsFilms):JSX.Element{
+
+function Detailes():JSX.Element{
   const {id} = useParams();
-  const film = FILMS.filter((item)=> (item.id === id))[0];
-  if(film === undefined){
-    return(
-      <Navigate to={AppRoute.NotFound} />
-    );
-  }
+  const dispatch = useAppDispatch();
+  useEffect(() => () => {
+    dispatch(getFilm(id as string));
+    dispatch(getAllFilmAction());
+  },[dispatch,id]);
+  const { filmListAll,authorizationStatus } = useAppSelector(
+    (state) => state
+  );
+  const film = filmListAll.filter((item)=> (item.id === Number(id)))[0];
   return(
     <>
+      {film !== undefined &&
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.img} alt="The Grand Budapest Hotel" />
+            <img src={film.backgroundImage} alt="The Grand Budapest Hotel" />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -49,7 +55,7 @@ function Detailes(props:IPropsFilms):JSX.Element{
               <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.date.toDateString()}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -66,7 +72,8 @@ function Detailes(props:IPropsFilms):JSX.Element{
                   <span><Link to={AppRoute.MyList} className="user-block__link">My list</Link></span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link to={`${AppRoute.AddReview}${film.id}`} className="btn film-card__button">Add review</Link>
+                { (authorizationStatus !== AuthorizationStatus.Unknown && authorizationStatus !== AuthorizationStatus.NoAuth) &&
+                <Link to={`${AppRoute.AddReview}${film.id}`} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>
@@ -75,7 +82,7 @@ function Detailes(props:IPropsFilms):JSX.Element{
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film.img} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={film.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
@@ -122,8 +129,8 @@ function Detailes(props:IPropsFilms):JSX.Element{
             </div>
           </div>
         </div>
-      </section>
-      {<FilmFooter typeFilms={film} films={props.films} />}
+      </section>}
+      {<FilmFooter typeFilms={film} films={filmListAll} />}
     </>
   );
 }

@@ -5,7 +5,7 @@ import { FILMS } from '../../Moq/Films-List';
 function Player():JSX.Element{
   const navigate = useNavigate();
   const {id} = useParams();
-  const film = FILMS.filter((item)=> (item.id === id))[0];
+  const film = FILMS.filter((item)=> (item.id === Number(id)))[0];
   if(film === undefined){
     return(
       <Navigate to={AppRoute.NotFound} />

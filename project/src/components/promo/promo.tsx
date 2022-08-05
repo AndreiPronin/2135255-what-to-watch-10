@@ -7,13 +7,13 @@ function Promo(props:IPropsFilm):JSX.Element{
     <div className="film-card__wrap">
       <div className="film-card__info">
         <div className="film-card__poster">
-          <img src={props.film.img} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={props.film.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
         </div>
         <div className="film-card__desc">
           <h2 className="film-card__title">{props.film.name}</h2>
           <p className="film-card__meta">
-            <span className="film-card__genre">Drama</span>
-            <span className="film-card__year">2014</span>
+            <span className="film-card__genre">{props.film.genre}</span>
+            <span className="film-card__year">{props.film.released}</span>
           </p>
 
           <div className="film-card__buttons">

@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
 import FilmCard from '../../components/film-card/film-card';
 import { AppRoute } from '../../enums/route-enum';
+import { useAppSelector } from '../../hooks';
 import { useMouseHover } from '../../hooks/mouse-hover';
-import { IPropsFilms } from '../../types/type-films/Type-Films';
 
-function MyList(props:IPropsFilms):JSX.Element{
+
+function MyList():JSX.Element{
   const {MouseOver,MouseOut,activVideo} = useMouseHover();
+
+  const { filmListAll } = useAppSelector(
+    (state) => state
+  );
   return(
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -25,7 +30,7 @@ function MyList(props:IPropsFilms):JSX.Element{
             </div>
           </li>
           <li className="user-block__item">
-            <a href='#' className="user-block__link">Sign out</a>
+            <Link to={AppRoute.Login} className="user-block__link">Sign out</Link>
           </li>
         </ul>
       </header>
@@ -35,8 +40,8 @@ function MyList(props:IPropsFilms):JSX.Element{
 
         <div className="catalog__films-list">
           {
-            props.films.map((film)=>
-              <FilmCard key={film.id} film={film} isActiveVideo={activVideo === film.id} mouseOver={MouseOver} mouseOut={MouseOut} />
+            filmListAll.map((film)=>
+              <FilmCard key={film.id} film={film} isActiveVideo={Number(activVideo) === film.id} mouseOver={MouseOver} mouseOut={MouseOut} />
             )
           }
         </div>

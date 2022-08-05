@@ -1,8 +1,40 @@
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../enums/route-enum';
+import {Link} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {UserData} from '../../types/auth-data';
+import {FormEvent, useState} from 'react';
+import {loginAction, logoutAction} from '../../services/api-action';
+import { AppRoute, AuthorizationStatus } from '../../enums/route-enum';
 
-function Login():JSX.Element{
-  return(
+function Login(): JSX.Element {
+  const {authorizationStatus} = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const [formData,SetFormData] = useState({
+    userEmail:'',
+    userPassword:''
+  });
+  const onChangeInput = (e:React.ChangeEvent) =>{
+    const {name,value} = e.target as HTMLInputElement;
+    SetFormData({...formData, [name]: value});
+  };
+  const onSubmitLogin = (userData: UserData) => {
+    dispatch(loginAction(userData));
+  };
+  const onSubmitLogOut = () => {
+    dispatch(logoutAction());
+  };
+  const onSubmitForm = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if ( formData.userEmail !== '' && formData.userPassword !== '') {
+      onSubmitLogin({
+        login: formData.userEmail,
+        password: formData.userPassword,
+      });
+    }
+  };
+  const handleSubmitLogOut = (evt: FormEvent<HTMLFormElement>) => {
+    onSubmitLogOut();
+  };
+  return (
     <div className="user-page">
       <header className="page-header user-page__head">
         <div className="logo">
@@ -17,37 +49,49 @@ function Login():JSX.Element{
       </header>
 
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form">
-          <div className="sign-in__fields">
-            <div className="sign-in__field">
-              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
-              <label className="sign-in__label visually-hidden">Email address</label>
-            </div>
-            <div className="sign-in__field">
-              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
-              <label className="sign-in__label visually-hidden" >Password</label>
-            </div>
-          </div>
-          <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit">Sign in</button>
-          </div>
-        </form>
+        {
+          ((authorizationStatus === AuthorizationStatus.NoAuth) || (authorizationStatus === AuthorizationStatus.Unknown)) && (
+            <form action="#" className="sign-in__form" onSubmit={onSubmitForm}>
+              <div className="sign-in__fields">
+                <div className="sign-in__field">
+                  <input
+                    className="sign-in__input"
+                    type="email"
+                    placeholder="Email address"
+                    name="userEmail"
+                    onChange={onChangeInput}
+                  />
+                  <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
+                </div>
+                <div className="sign-in__field">
+                  <input
+                    className="sign-in__input"
+                    type="password"
+                    placeholder="Password"
+                    name="userPassword"
+                    onChange={onChangeInput}
+                  />
+                  <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
+                </div>
+              </div>
+              <div className="sign-in__submit">
+                <button className="sign-in__btn" type="submit">Sign in</button>
+              </div>
+            </form>
+          )
+        }
+        {
+          authorizationStatus === AuthorizationStatus.Auth && (
+            <form action="#" className="sign-in__form" onSubmit={handleSubmitLogOut}>
+              <div className="sign-in__submit">
+                <button className="sign-in__btn" type="submit">Log Out</button>
+              </div>
+            </form>
+          )
+        }
       </div>
-
-      <footer className="page-footer">
-        <div className="logo">
-          <a href="main.html" className="logo__link logo__link--light">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
-
-        <div className="copyright">
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
     </div>
   );
 }
+
 export default Login;

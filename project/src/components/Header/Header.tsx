@@ -4,19 +4,20 @@ import { IPropsFilm } from '../../types/type-films/Type-Films';
 import Promo from '../promo/promo';
 
 function Header(props:IPropsFilm):JSX.Element{
+
   return(
     <section className="film-card">
       <div className="film-card__bg">
-        <img src={props.film.img} alt="The Grand Budapest Hotel" />
+        <img src={props.film.backgroundImage} alt="The Grand Budapest Hotel" />
       </div>
       <h1 className="visually-hidden">{props.film.name}</h1>
       <header className="page-header film-card__head">
         <div className="logo">
-          <a className="logo__link">
+          <Link to={AppRoute.Main} className="logo__link">
             <span className="logo__letter logo__letter--1">W</span>
             <span className="logo__letter logo__letter--2">T</span>
             <span className="logo__letter logo__letter--3">W</span>
-          </a>
+          </Link>
         </div>
         <ul className="user-block">
           <li className="user-block__item">

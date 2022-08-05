@@ -15,7 +15,7 @@ function FilmCard(props:IPropsFilm):JSX.Element{
       <VideoPlayer film={props.film} activeVideo={props.isActiveVideo} />
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={`${AppRoute.Film}${props.film.id}`}>
-          {props.film.name} дата выхода {props.film.date.toDateString()}
+          {props.film.name} дата выхода {props.film.released}
         </Link>
       </h3>
     </article>
