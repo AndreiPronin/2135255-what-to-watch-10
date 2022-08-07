@@ -6,7 +6,7 @@ import { useAppDispatch,useAppSelector } from '../../hooks';
 import { showMoreFilms } from '../../store/film-process/film-process';
 //import {getQuantityFilms} from '../../store/selectors';
 //import { useSelector } from 'react-redux';
-import { getAllFilmAction } from '../../services/api-action';
+import { getAllFilmAction, getPromoFilmAction } from '../../services/api-action';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums/enum';
 import { filterFilms, getActiveFilmsCardsNumber, getPromoFilm,getQuantityFilms } from '../../store/film-process/selectors';
@@ -20,6 +20,7 @@ function MainPage(): JSX.Element {
   const dispatch = useAppDispatch();
   useEffect(() => () => {
     dispatch(getAllFilmAction());
+    dispatch(getPromoFilmAction());
   }, [dispatch]);
   return (
     <>
