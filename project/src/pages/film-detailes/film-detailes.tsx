@@ -1,22 +1,19 @@
-import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import AddMyList from '../../components/add-my-list/add-my-list';
 import FilmFooter from '../../components/film-footer/film-footer';
 import MenuFilm from '../../components/menu-film/menu-film';
-import { AppRoute, AuthorizationStatus } from '../../enums/route-enum';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getAllFilmAction, getFilm } from '../../services/api-action';
+import { AppRoute, AuthorizationStatus } from '../../enums/enum';
+import { useAppSelector } from '../../hooks';
+import { useGetFilmsProperty } from '../../hooks/load-films';
+import { getAllFilms } from '../../store/film-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selector';
 
 
 function Detailes():JSX.Element{
   const {id} = useParams();
-  const dispatch = useAppDispatch();
-  useEffect(() => () => {
-    dispatch(getFilm(id as string));
-    dispatch(getAllFilmAction());
-  },[dispatch,id]);
-  const { filmListAll,authorizationStatus } = useAppSelector(
-    (state) => state
-  );
+  useGetFilmsProperty(id as string);
+  const filmListAll = useAppSelector(getAllFilms);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const film = filmListAll.filter((item)=> (item.id === Number(id)))[0];
   return(
     <>
@@ -65,13 +62,7 @@ function Detailes():JSX.Element{
                   </svg>
                   <span> <Link to={`${AppRoute.Player}${film.id}`}>Play</Link></span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span><Link to={AppRoute.MyList} className="user-block__link">My list</Link></span>
-                  <span className="film-card__count">9</span>
-                </button>
+                <AddMyList film={film} />
                 { (authorizationStatus !== AuthorizationStatus.Unknown && authorizationStatus !== AuthorizationStatus.NoAuth) &&
                 <Link to={`${AppRoute.AddReview}${film.id}`} className="btn film-card__button">Add review</Link>}
               </div>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../enums/route-enum';
+import { AppRoute } from '../../enums/enum';
 import { IPropsFilm } from '../../types/type-films/Type-Films';
 import Promo from '../promo/promo';
 

@@ -1,22 +1,25 @@
-import { Navigate, useParams,useNavigate } from 'react-router-dom';
-import { AppRoute } from '../../enums/route-enum';
-import { FILMS } from '../../Moq/Films-List';
+import { useParams,useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
+import { useGetFilmsProperty } from '../../hooks/load-films';
+import { getAllFilms } from '../../store/film-process/selectors';
 
 function Player():JSX.Element{
-  const navigate = useNavigate();
+  const naveigate = useNavigate();
   const {id} = useParams();
-  const film = FILMS.filter((item)=> (item.id === Number(id)))[0];
-  if(film === undefined){
-    return(
-      <Navigate to={AppRoute.NotFound} />
-    );
-  }
+  useGetFilmsProperty(id as string);
+  const filmListAll = useAppSelector(getAllFilms);
+  const film = filmListAll.filter((item)=> (item.id === Number(id)))[0];
   return(
-    <div className="player">
-      <video src="#" className="player__video" poster={film.img}></video>
 
-      <button type="button" onClick={()=> navigate(-1)} className="player__exit">Exit</button>
-      <div className="player__controls">
+    <div className="player">
+
+      {film !== undefined &&
+      <>
+        <video src={film.previewVideoLink} className="player__video" poster={film.previewImage} controls autoPlay></video>
+        <button type="button" onClick={()=> naveigate(-1)} className="player__exit">Exit</button>
+      </>}
+
+      {/* <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
             <progress className="player__progress" value="30" max="100"></progress>
@@ -41,7 +44,7 @@ function Player():JSX.Element{
             <span>Full screen</span>
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

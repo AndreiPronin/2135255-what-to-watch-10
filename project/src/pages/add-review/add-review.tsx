@@ -1,9 +1,10 @@
-import React, { FormEvent, useState, useEffect } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import FilmFooter from '../../components/film-footer/film-footer';
-import { AppRoute } from '../../enums/route-enum';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getAllFilmAction, getFilm, SaveComment } from '../../services/api-action';
+import { AppRoute } from '../../enums/enum';
+import { useAppSelector } from '../../hooks';
+import { useGetFilmsProperty } from '../../hooks/load-films';
+import { SaveComment } from '../../services/api-action';
+import { getAllFilms } from '../../store/film-process/selectors';
 import { SaveModelComment } from '../../types/type-films/Type-Films';
 
 function AddReview():JSX.Element{
@@ -12,15 +13,9 @@ function AddReview():JSX.Element{
     reviewText:''
   });
   const {id} = useParams();
-  const dispatch = useAppDispatch();
-  useEffect(() => () => {
-    dispatch(getFilm(id as string));
-    dispatch(getAllFilmAction());
-  },[dispatch,id]);
-  const { filmListAll } = useAppSelector(
-    (state) => state
-  );
-  const film = filmListAll.filter((item)=> (item.id === Number(id)))[0];
+  const {dispatch} = useGetFilmsProperty(id as string);
+  const filmsListAll = useAppSelector(getAllFilms);
+  const film = filmsListAll.filter((item)=> (item.id === Number(id)))[0];
   const ArrayRaiting = [10,9,8,7,6,5,4,3,2,1];
   const Comment : SaveModelComment = {
     idFilms: id as string,
@@ -41,7 +36,7 @@ function AddReview():JSX.Element{
     dispatch(SaveComment(comment));
   };
   return(
-    <>
+    <div>
       {film !== undefined &&
       <section className="film-card film-card--full">
         <div className="film-card__header">
@@ -95,7 +90,7 @@ function AddReview():JSX.Element{
                 {
                   ArrayRaiting.map((i) =>(
                     <>
-                      <input key={i} onChange={HandleChange} className="rating__input" id={`star-${i}`} type="radio" name="rating" value={i} />
+                      <input key={`Key${i}`} onChange={HandleChange} className="rating__input" id={`star-${i}`} type="radio" name="rating" value={i} />
                       <label className="rating__label" htmlFor={`star-${i}`}>Rating {i}</label>
                     </>
                   ))
@@ -111,8 +106,7 @@ function AddReview():JSX.Element{
           </form>
         </div>
       </section>}
-      {<FilmFooter typeFilms={film} films={filmListAll} />}
-    </>
+    </div>
   );
 }
-export default AddReview;
+export default React.memo(AddReview);

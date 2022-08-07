@@ -46,3 +46,8 @@ export type SaveModelComment = {
   comment: string
   rating: number
 }
+
+export type AddFavoriteFilm = {
+  filmId:number,
+  status:number,
+}

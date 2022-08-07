@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../enums/route-enum';
+import { AppRoute } from '../../enums/enum';
 import { IPropsFilm } from '../../types/type-films/Type-Films';
+import AddMyList from '../add-my-list/add-my-list';
 
 function Promo(props:IPropsFilm):JSX.Element{
+
   return(
     <div className="film-card__wrap">
       <div className="film-card__info">
@@ -23,13 +25,7 @@ function Promo(props:IPropsFilm):JSX.Element{
               </svg>
               <span> <Link to={`${AppRoute.Player}${props.film.id}`}>Play</Link></span>
             </button>
-            <button className="btn btn--list film-card__button" type="button">
-              <svg viewBox="0 0 19 20" width="19" height="20">
-                <use xlinkHref="#add"></use>
-              </svg>
-              <span><Link to={AppRoute.MyList} className="user-block__link">My list</Link></span>
-              <span className="film-card__count">9</span>
-            </button>
+            <AddMyList film={props.film} />
           </div>
         </div>
       </div>

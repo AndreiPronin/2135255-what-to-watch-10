@@ -3,10 +3,10 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {UserData} from '../../types/auth-data';
 import {FormEvent, useState} from 'react';
 import {loginAction, logoutAction} from '../../services/api-action';
-import { AppRoute, AuthorizationStatus } from '../../enums/route-enum';
+import { AppRoute, AuthorizationStatus } from '../../enums/enum';
 
 function Login(): JSX.Element {
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   const dispatch = useAppDispatch();
   const [formData,SetFormData] = useState({
     userEmail:'',

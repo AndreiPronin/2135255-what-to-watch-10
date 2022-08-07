@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { AppRoute } from '../../enums/route-enum';
+import { AppRoute } from '../../enums/enum';
 import { IPropsFilm } from '../../types/type-films/Type-Films';
 
 function MenuFilm(props:IPropsFilm):JSX.Element{

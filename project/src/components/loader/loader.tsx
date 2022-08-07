@@ -1,8 +1,10 @@
 import { useAppSelector } from '../../hooks';
+import { getLoad } from '../../store/film-process/selectors';
 import './loader.css';
 
 function Loader():JSX.Element{
-  const isLoad = useAppSelector((state) => state.isLoad);
+  const isLoad = useAppSelector(getLoad);
+
   if(isLoad === true){
     return (
       <div className="loader">

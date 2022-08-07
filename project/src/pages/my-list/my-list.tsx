@@ -1,16 +1,14 @@
 import { Link } from 'react-router-dom';
 import FilmCard from '../../components/film-card/film-card';
-import { AppRoute } from '../../enums/route-enum';
+import { AppRoute } from '../../enums/enum';
 import { useAppSelector } from '../../hooks';
 import { useMouseHover } from '../../hooks/mouse-hover';
+import { getFavoreteFilms } from '../../store/film-process/selectors';
 
 
 function MyList():JSX.Element{
   const {MouseOver,MouseOut,activVideo} = useMouseHover();
-
-  const { filmListAll } = useAppSelector(
-    (state) => state
-  );
+  const filmListAll = useAppSelector(getFavoreteFilms);
   return(
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -22,7 +20,7 @@ function MyList():JSX.Element{
           </Link>
         </div>
 
-        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>
+        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{filmListAll.length}</span></h1>
         <ul className="user-block">
           <li className="user-block__item">
             <div className="user-block__avatar">
@@ -39,6 +37,8 @@ function MyList():JSX.Element{
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <div className="catalog__films-list">
+          {filmListAll.length === 0 &&
+          <p className="small-film-card__title">вапр</p>}
           {
             filmListAll.map((film)=>
               <FilmCard key={film.id} film={film} isActiveVideo={Number(activVideo) === film.id} mouseOver={MouseOver} mouseOut={MouseOut} />

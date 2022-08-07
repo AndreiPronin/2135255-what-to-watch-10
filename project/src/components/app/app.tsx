@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { AppRoute } from '../../enums/route-enum';
+import { AppRoute } from '../../enums/enum';
 import browserHistory from '../../history';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import AddReview from '../../pages/add-review/add-review';
@@ -18,7 +18,7 @@ import PrivateRoute from '../private-route/private-route';
 
 
 function App():JSX.Element {
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   const dispatch = useAppDispatch();
   useEffect(() => () => {
     dispatch(checkAuthAction());

@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import {useAppDispatch, useAppSelector } from '../../hooks';
-import { changeGenre } from '../../store/action';
+import { changeGenre } from '../../store/film-process/film-process';
 import { INITIAL_GENRE } from '../../store/const';
+import { getActiveGenre, getAllGenre } from '../../store/film-process/selectors';
 
 function FilmNavigate():JSX.Element{
-  const { allGenre,activeGenre } = useAppSelector(
-    (state) => state
-  );
+  const activeGenre = useAppSelector(getActiveGenre);
+  const allGenre = useAppSelector(getAllGenre);
   const dispatch = useAppDispatch();
   return(
     <ul className="catalog__genres-list">

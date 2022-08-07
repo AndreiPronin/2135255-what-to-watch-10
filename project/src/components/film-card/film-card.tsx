@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../enums/route-enum';
+import { AppRoute } from '../../enums/enum';
 import { IFilm } from '../../types/type-films/Type-Films';
 import VideoPlayer from '../video-player/video-player';
 interface IPropsFilm{
