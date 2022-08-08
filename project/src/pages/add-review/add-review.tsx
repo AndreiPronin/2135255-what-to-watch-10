@@ -4,17 +4,21 @@ import { AppRoute } from '../../enums/enum';
 import { useAppSelector } from '../../hooks';
 import { useGetFilmsProperty } from '../../hooks/load-films';
 import { SaveComment } from '../../services/api-action';
-import { getAllFilms } from '../../store/film-process/selectors';
+import { ERROR_SUBMIT_FORM_NEED_START } from '../../store/const';
+import { setError } from '../../store/film-process/film-process';
+import { getAllFilms, getError } from '../../store/film-process/selectors';
 import { SaveModelComment } from '../../types/type-films/Type-Films';
 
 function AddReview():JSX.Element{
   const [formData,SetFormData] = useState({
     rating:'',
-    reviewText:''
+    reviewText:'',
+    isShowButon:false,
   });
   const {id} = useParams();
   const {dispatch} = useGetFilmsProperty(id as string);
   const filmsListAll = useAppSelector(getAllFilms);
+  const Error = useAppSelector(getError);
   const film = filmsListAll.filter((item)=> (item.id === Number(id)))[0];
   const ArrayRaiting = [10,9,8,7,6,5,4,3,2,1];
   const Comment : SaveModelComment = {
@@ -24,12 +28,19 @@ function AddReview():JSX.Element{
   };
   const HandleChange = (e:React.ChangeEvent) =>{
     const {name,value} = e.target as HTMLInputElement;
+    if(formData.reviewText.length > 50 && formData.reviewText.length < 400){
+      formData.isShowButon = true;
+    }else{
+      formData.isShowButon = false;
+    }
     SetFormData({...formData, [name]: value});
   };
   const handleSubmitLogin = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if ( Comment.rating > 0 && Comment.comment !== '') {
       onSubmitLogin(Comment);
+    }else{
+      dispatch(setError(ERROR_SUBMIT_FORM_NEED_START));
     }
   };
   const onSubmitLogin = (comment: SaveModelComment) => {
@@ -84,6 +95,7 @@ function AddReview():JSX.Element{
         </div>
 
         <div className="add-review">
+          <p>{Error}</p>
           <form action="#" onSubmit={handleSubmitLogin} className="add-review__form">
             <div className="rating">
               <div className="rating__stars">
@@ -98,9 +110,10 @@ function AddReview():JSX.Element{
               </div>
             </div>
             <div className="add-review__text">
-              <textarea onChange={HandleChange} className="add-review__textarea" name="reviewText" id="review-text" placeholder="Review text"></textarea>
+              <textarea onChange={HandleChange} className="add-review__textarea" name="reviewText" id="review-text" placeholder="Review text. Please enter > 50 and < 400 symbol"></textarea>
               <div className="add-review__submit">
-                <button className="add-review__btn" type='submit' >Post</button>
+                {formData.isShowButon &&
+                <button className="add-review__btn" type='submit' >Post</button>}
               </div>
             </div>
           </form>

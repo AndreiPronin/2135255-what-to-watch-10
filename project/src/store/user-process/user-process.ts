@@ -4,7 +4,7 @@ import {checkAuthAction, loginAction, logoutAction} from '../../services/api-act
 import { AuthorizationStatus, NameSpace } from '../../enums/enum';
 
 const initialState: UserProcess = {
-  authorizationStatus: AuthorizationStatus.Unknown,
+  authorizationStatus: AuthorizationStatus.Auth,
 };
 
 export const userProcess = createSlice({

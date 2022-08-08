@@ -18,11 +18,11 @@ import PrivateRoute from '../private-route/private-route';
 
 
 function App():JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   const dispatch = useAppDispatch();
   useEffect(() => () => {
     dispatch(checkAuthAction());
   }, [dispatch]);
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   return (
     <HistoryRouter history={browserHistory} >
       <Routes>

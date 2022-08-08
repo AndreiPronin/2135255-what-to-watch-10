@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import AddMyList from '../../components/add-my-list/add-my-list';
 import FilmFooter from '../../components/film-footer/film-footer';
 import MenuFilm from '../../components/menu-film/menu-film';
-import { AppRoute, AuthorizationStatus } from '../../enums/enum';
+import { AppRoute, AuthorizationStatus, Ratiting } from '../../enums/enum';
 import { useAppSelector } from '../../hooks';
 import { useGetFilmsProperty } from '../../hooks/load-films';
 import { getAllFilms } from '../../store/film-process/selectors';
@@ -14,6 +14,16 @@ function Film():JSX.Element{
   const filmListAll = useAppSelector(getAllFilms);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const film = filmListAll.filter((item)=> (item.id === Number(id)))[0];
+  let Raiting = '';
+  if(film !== undefined){
+    switch(true){
+      case(film.rating <= 3) : Raiting = Ratiting.Bad; break;
+      case(film.rating <= 5) : Raiting = Ratiting.Normal; break;
+      case(film.rating <= 8) : Raiting = Ratiting.Good; break;
+      case(film.rating <= 9) : Raiting = Ratiting.VeryGood; break;
+      case(film.rating === 10) : Raiting = Ratiting.Awesome; break;
+    }
+  }
   return(
     <>
       {film !== undefined &&
@@ -80,8 +90,8 @@ function Film():JSX.Element{
               <div className="film-rating">
                 <div className="film-rating__score">{film.rating}</div>
                 <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">240 ratings</span>
+                  <span className="film-rating__level">{Raiting}</span>
+                  <span className="film-rating__count">{film.scoresCount}</span>
                 </p>
               </div>
 

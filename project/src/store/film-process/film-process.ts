@@ -28,6 +28,9 @@ export const dataFilms = createSlice({
       state.activeFilmsCardsNumber = INITIAL_FILM_CARDS_NUMBER;
       state.activeGenre = action.payload;
     },
+    setError: (state,action)=>{
+      state.error = action.payload;
+    },
     showMoreFilms: (state)=>{
       state.activeFilmsCardsNumber += INCREMENT_FILM_CARDS_NUMBER;
     },
@@ -66,4 +69,4 @@ export const dataFilms = createSlice({
   }
 });
 
-export const {changeGenre,showMoreFilms} = dataFilms.actions;
+export const {changeGenre,showMoreFilms,setError} = dataFilms.actions;

@@ -1,13 +1,19 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import FilmCard from '../../components/film-card/film-card';
 import { AppRoute } from '../../enums/enum';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useMouseHover } from '../../hooks/mouse-hover';
+import { GetFavoriteFilmAction } from '../../services/api-action';
 import { getFavoreteFilms } from '../../store/film-process/selectors';
 
 
 function MyList():JSX.Element{
   const {MouseOver,MouseOut,activVideo} = useMouseHover();
+  const dispatch = useAppDispatch();
+  useEffect(()=>()=>{
+    dispatch(GetFavoriteFilmAction());
+  },[dispatch]);
   const filmListAll = useAppSelector(getFavoreteFilms);
   return(
     <div className="user-page">

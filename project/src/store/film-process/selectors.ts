@@ -12,6 +12,7 @@ export const getActiveFilmsCardsNumber = (state: State): number => state[NameSpa
 export const getPromoFilm = (state: State): IFilm => state[NameSpace.Data].promo;
 export const getFavoreteFilms = (state: State): IFilm[] => state[NameSpace.Data].favoriteFilms;
 export const getLoad = (state:State): boolean => state[NameSpace.Data].isLoad;
+export const getError = (state:State): string => state[NameSpace.Data].error;
 
 export const filterFilms = createSelector(
   [getAllFilms,getActiveGenre,getActiveFilmsCardsNumber],

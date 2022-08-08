@@ -6,6 +6,8 @@ import { AddFavoriteFilm, IComment, IFilm, SaveModelComment } from '../types/typ
 import { UserData, User } from '../types/auth-data';
 import { dropToken, saveToken } from './token';
 import { redirectRoute } from '../store/action';
+import { setError } from '../store/film-process/film-process';
+import { ERROR_SUBMIT_FORM } from '../store/const';
 
 export const getPromoFilmAction = createAsyncThunk<IFilm, undefined, {
   dispatch: AppDispatch,
@@ -49,8 +51,12 @@ export const SaveComment = createAsyncThunk<void, SaveModelComment, {
 }>(
   'data/SaveComment',
   async ({idFilms,comment,rating} : SaveModelComment,{dispatch, extra: api}) => {
-    await api.post(`${APIRoute.Comments}/${idFilms}`,{comment,rating} );
-    dispatch(redirectRoute(`${AppRoute.Film}${idFilms}/review`));
+    try{
+      await api.post(`${APIRoute.Comments}/${idFilms}`,{comment,rating} );
+      dispatch(redirectRoute(`${AppRoute.Film}${idFilms}/review`));
+    }catch{
+      dispatch(setError(ERROR_SUBMIT_FORM));
+    }
   },
 );
 

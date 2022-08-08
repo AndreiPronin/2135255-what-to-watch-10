@@ -31,3 +31,11 @@ export enum AddfavoriteFilmStatus{
   Add = 1,
   Delete = 0,
 }
+
+export enum Ratiting {
+  Bad = 'Bad',
+  Normal = 'Normal',
+  Good = 'Good',
+  VeryGood = 'Very good',
+  Awesome = 'Awesome',
+}
