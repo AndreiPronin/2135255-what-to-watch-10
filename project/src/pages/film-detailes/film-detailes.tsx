@@ -15,7 +15,6 @@ function Detailes():JSX.Element{
   const filmListAll = useAppSelector(getAllFilms);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const film = filmListAll.find((item)=> (item.id === Number(id)));
-  console.log(film?.starring)
   return(
     <>
       {film !== undefined &&
