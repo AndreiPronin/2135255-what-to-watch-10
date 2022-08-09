@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../enums/enum';
+import { AppRoute, AuthorizationStatus } from '../../enums/enum';
+import { useAppSelector } from '../../hooks';
 import { IPropsFilm } from '../../types/type-films/Type-Films';
 import Promo from '../promo/promo';
 
 function Header(props:IPropsFilm):JSX.Element{
-
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   return(
     <section className="film-card">
       <div className="film-card__bg">
@@ -26,7 +27,7 @@ function Header(props:IPropsFilm):JSX.Element{
             </div>
           </li>
           <li className="user-block__item">
-            <Link to={AppRoute.Login} className="user-block__link">Sign out</Link>
+            <Link to={AppRoute.Login} className="user-block__link">{authorizationStatus === AuthorizationStatus.Auth ? 'Sign out' : 'Sign in'}</Link>
           </li>
         </ul>
       </header>

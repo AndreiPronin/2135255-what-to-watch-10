@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import AddMyList from '../../components/add-my-list/add-my-list';
 import FilmFooter from '../../components/film-footer/film-footer';
 import MenuFilm from '../../components/menu-film/menu-film';
-import { AppRoute, AuthorizationStatus, Ratiting } from '../../enums/enum';
+import { AppRoute, AuthorizationStatus, RatitingNumber, RatitingText } from '../../enums/enum';
 import { useAppSelector } from '../../hooks';
 import { useGetFilmsProperty } from '../../hooks/load-films';
 import { getAllFilms } from '../../store/film-process/selectors';
@@ -13,15 +13,15 @@ function Film():JSX.Element{
   useGetFilmsProperty(id as string);
   const filmListAll = useAppSelector(getAllFilms);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const film = filmListAll.filter((item)=> (item.id === Number(id)))[0];
+  const film = filmListAll.find((item)=> (item.id === Number(id)));
   let Raiting = '';
   if(film !== undefined){
     switch(true){
-      case(film.rating <= 3) : Raiting = Ratiting.Bad; break;
-      case(film.rating <= 5) : Raiting = Ratiting.Normal; break;
-      case(film.rating <= 8) : Raiting = Ratiting.Good; break;
-      case(film.rating <= 9) : Raiting = Ratiting.VeryGood; break;
-      case(film.rating === 10) : Raiting = Ratiting.Awesome; break;
+      case(film.rating <= RatitingNumber.Bad) : Raiting = RatitingText.Bad; break;
+      case(film.rating <= RatitingNumber.Normal) : Raiting = RatitingText.Normal; break;
+      case(film.rating <= RatitingNumber.Good) : Raiting = RatitingText.Good; break;
+      case(film.rating <= RatitingNumber.VeryGood) : Raiting = RatitingText.VeryGood; break;
+      case(film.rating === RatitingNumber.Awesome) : Raiting = RatitingText.Awesome; break;
     }
   }
   return(

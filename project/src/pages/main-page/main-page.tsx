@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import FilmList from '../../components/film-list/film-list';
 import FilmNavigate from '../../components/film-navigate/film-navigate';
-import Header from '../../components/header/headers';
+import Header from '../../components/header/header';
 import { useAppDispatch,useAppSelector } from '../../hooks';
 import { showMoreFilms } from '../../store/film-process/film-process';
 //import {getQuantityFilms} from '../../store/selectors';

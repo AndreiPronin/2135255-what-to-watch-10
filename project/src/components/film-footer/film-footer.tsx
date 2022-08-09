@@ -3,12 +3,12 @@ import { AppRoute } from '../../enums/enum';
 import { IFilm } from '../../types/type-films/Type-Films';
 import FilmList from '../film-list/film-list';
 interface IFilmsFooter{
-  typeFilms:IFilm,
+  typeFilms:IFilm | null | undefined,
   films:IFilm[]
 }
 
 function FilmFooter(props:IFilmsFooter):JSX.Element{
-  const ArrayShowMore = props.films.filter((item)=>(item.genre === props.typeFilms.genre && item.name !== props.typeFilms.name));
+  const ArrayShowMore = props.films.filter((item)=>(item.genre === props.typeFilms?.genre && item.name !== props.typeFilms.name));
   return(
     <div className="page-content">
       {ArrayShowMore.length > 0 &&

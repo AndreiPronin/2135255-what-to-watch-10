@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import AddMyList from '../../components/add-my-list/add-my-list';
 import FilmFooter from '../../components/film-footer/film-footer';
 import MenuFilm from '../../components/menu-film/menu-film';
-import { AppRoute, AuthorizationStatus } from '../../enums/enum';
+import { AppRoute, AuthorizationStatus, DateOption } from '../../enums/enum';
 import { useAppSelector } from '../../hooks';
 import { useGetFilmsProperty } from '../../hooks/load-films';
 import { getAllFilms,getAllComment } from '../../store/film-process/selectors';
@@ -42,7 +42,7 @@ function FilmReview():JSX.Element{
                 </div>
               </li>
               <li className="user-block__item">
-                <Link to={AppRoute.Login} className="user-block__link">Sign out</Link>
+                <Link to={AppRoute.Login} className="user-block__link">{authorizationStatus === AuthorizationStatus.Auth ? 'Sign out' : 'Sign in'}</Link>
               </li>
             </ul>
           </header>
@@ -88,7 +88,9 @@ function FilmReview():JSX.Element{
                             <p className="review__text">{Item.comment}</p>
                             <footer className="review__details">
                               <cite className="review__author">{Item.user.name}</cite>
-                              <time className="review__date">{Item.date}</time>
+                              <time className="review__date">{new Date(Item.date).toLocaleString(
+                                DateOption.location, { year: DateOption.year, month: DateOption.month, day: DateOption.day })}
+                              </time>
                             </footer>
                           </blockquote>
                           <div className="review__rating">{Item.rating}</div>

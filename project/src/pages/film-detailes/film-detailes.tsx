@@ -14,7 +14,8 @@ function Detailes():JSX.Element{
   useGetFilmsProperty(id as string);
   const filmListAll = useAppSelector(getAllFilms);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const film = filmListAll.filter((item)=> (item.id === Number(id)))[0];
+  const film = filmListAll.find((item)=> (item.id === Number(id)));
+  console.log(film?.starring)
   return(
     <>
       {film !== undefined &&
@@ -42,7 +43,7 @@ function Detailes():JSX.Element{
                 </div>
               </li>
               <li className="user-block__item">
-                <Link to={AppRoute.Login} className="user-block__link">Sign out</Link>
+                <Link to={AppRoute.Login} className="user-block__link">{authorizationStatus === AuthorizationStatus.Auth ? 'Sign out' : 'Sign in'}</Link>
               </li>
             </ul>
           </header>
@@ -87,7 +88,7 @@ function Detailes():JSX.Element{
                   <p className="film-card__details-item">
                     <strong className="film-card__details-name">Starring</strong>
                     <span className="film-card__details-value">
-                      {film.starring}
+                      {film.starring.join(', <br />')}
                     </span>
                   </p>
                 </div>

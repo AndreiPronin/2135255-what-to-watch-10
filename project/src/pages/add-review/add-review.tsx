@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { AppRoute } from '../../enums/enum';
+import { AppRoute, AuthorizationStatus } from '../../enums/enum';
 import { useAppSelector } from '../../hooks';
 import { useGetFilmsProperty } from '../../hooks/load-films';
 import { SaveComment } from '../../services/api-action';
@@ -8,6 +8,7 @@ import { ERROR_SUBMIT_FORM_NEED_START } from '../../store/const';
 import { setError } from '../../store/film-process/film-process';
 import { getAllFilms, getError } from '../../store/film-process/selectors';
 import { SaveModelComment } from '../../types/type-films/Type-Films';
+import { reviewText } from '../const';
 
 function AddReview():JSX.Element{
   const [formData,SetFormData] = useState({
@@ -21,6 +22,7 @@ function AddReview():JSX.Element{
   const Error = useAppSelector(getError);
   const film = filmsListAll.filter((item)=> (item.id === Number(id)))[0];
   const ArrayRaiting = [10,9,8,7,6,5,4,3,2,1];
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   const Comment : SaveModelComment = {
     idFilms: id as string,
     comment:formData.reviewText,
@@ -28,7 +30,7 @@ function AddReview():JSX.Element{
   };
   const HandleChange = (e:React.ChangeEvent) =>{
     const {name,value} = e.target as HTMLInputElement;
-    if(formData.reviewText.length > 50 && formData.reviewText.length < 400){
+    if(formData.reviewText.length > reviewText.minLenght && formData.reviewText.length < reviewText.maxLenght){
       formData.isShowButon = true;
     }else{
       formData.isShowButon = false;
@@ -84,7 +86,7 @@ function AddReview():JSX.Element{
                 </div>
               </li>
               <li className="user-block__item">
-                <Link to={AppRoute.Login} className="user-block__link">Sign out</Link>
+                <Link to={AppRoute.Login} className="user-block__link">{authorizationStatus === AuthorizationStatus.Auth ? 'Sign out' : 'Sign in'}</Link>
               </li>
             </ul>
           </header>

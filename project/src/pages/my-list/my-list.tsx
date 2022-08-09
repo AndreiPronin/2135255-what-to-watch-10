@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import FilmCard from '../../components/film-card/film-card';
-import { AppRoute } from '../../enums/enum';
+import { AppRoute, AuthorizationStatus } from '../../enums/enum';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useMouseHover } from '../../hooks/mouse-hover';
 import { GetFavoriteFilmAction } from '../../services/api-action';
@@ -15,6 +15,7 @@ function MyList():JSX.Element{
     dispatch(GetFavoriteFilmAction());
   },[dispatch]);
   const filmListAll = useAppSelector(getFavoreteFilms);
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   return(
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -34,7 +35,7 @@ function MyList():JSX.Element{
             </div>
           </li>
           <li className="user-block__item">
-            <Link to={AppRoute.Login} className="user-block__link">Sign out</Link>
+            <Link to={AppRoute.Login} className="user-block__link">{authorizationStatus === AuthorizationStatus.Auth ? 'Sign out' : 'Sign in'}</Link>
           </li>
         </ul>
       </header>

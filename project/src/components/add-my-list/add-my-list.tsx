@@ -14,7 +14,7 @@ function AddMyList(props:IPropsFilm){
     dispatch(GetFavoriteFilmAction());
   },[dispatch]);
   const favoriteFilm = useAppSelector(getFavoreteFilms);
-  const film = favoriteFilm.filter((item)=> item.id === props.film.id)[0];
+  const film = favoriteFilm.find((item)=> item.id === props.film.id);
   const AddFilm = (Film: AddFavoriteFilm) => {
     dispatch(AddFavoriteFilmAction(Film));
   };

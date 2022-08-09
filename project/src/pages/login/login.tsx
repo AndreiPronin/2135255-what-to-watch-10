@@ -32,6 +32,7 @@ function Login(): JSX.Element {
     }
   };
   const handleSubmitLogOut = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
     onSubmitLogOut();
   };
   return (
