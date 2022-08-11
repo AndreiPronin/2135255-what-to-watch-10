@@ -1,5 +1,5 @@
-import { system,name,internet } from "faker";
-import { IFilm } from "../types/type-films/Type-Films";
+import { system,name} from 'faker';
+import { IFilm } from '../types/type-films/Type-Films';
 
 export const makeFakeFilm = ():IFilm =>({
   id: 1,
