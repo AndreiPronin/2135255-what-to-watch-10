@@ -4,7 +4,7 @@ import { INITIAL_GENRE, INITIAL_FILM_CARDS_NUMBER, INCREMENT_FILM_CARDS_NUMBER }
 import { NameSpace } from '../../enums/enum';
 import { IComment, IFilm } from '../../types/type-films/Type-Films';
 import { dataFilm } from '../../types/state';
-import { getAllFilmAction, getPromoFilmAction,getAllComment, GetFavoriteFilmAction } from '../../services/api-action';
+import { getAllFilmAction, getPromoFilmAction,getAllComment, GetFavoriteFilmAction, getFilm, getFilmSimilar } from '../../services/api-action';
 
 const FILMS:IFilm[] = [];
 
@@ -13,6 +13,8 @@ const initialState : dataFilm = {
   activeGenre: INITIAL_GENRE,
   filmListAll: FILMS,
   favoriteFilms:FILMS,
+  similarFilm:FILMS,
+  currentFilm:{} as IFilm,
   comment:{} as IComment[],
   activeFilmsCardsNumber: INITIAL_FILM_CARDS_NUMBER,
   promo:{} as IFilm,
@@ -65,6 +67,20 @@ export const dataFilms = createSlice({
       .addCase(GetFavoriteFilmAction.fulfilled, (state,action) => {
         state.isLoad = false;
         state.favoriteFilms = action.payload;
+      })
+      .addCase(getFilm.pending, (state) => {
+        state.isLoad = true;
+      })
+      .addCase(getFilm.fulfilled, (state,action) => {
+        state.isLoad = false;
+        state.currentFilm = action.payload;
+      })
+      .addCase(getFilmSimilar.pending, (state) => {
+        state.isLoad = true;
+      })
+      .addCase(getFilmSimilar.fulfilled, (state,action) => {
+        state.isLoad = false;
+        state.similarFilm = action.payload;
       });
   }
 });

@@ -10,6 +10,8 @@ export type dataFilm = {
   allGenre: string[] ;
   activeGenre: string;
   favoriteFilms:IFilm[];
+  similarFilm:IFilm[];
+  currentFilm:IFilm;
   filmListAll: IFilm[];
   comment:IComment[];
   activeFilmsCardsNumber: number;

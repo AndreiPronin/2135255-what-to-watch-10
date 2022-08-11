@@ -1,31 +1,20 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import AddMyList from '../../components/add-my-list/add-my-list';
 import FilmFooter from '../../components/film-footer/film-footer';
 import MenuFilm from '../../components/menu-film/menu-film';
-import { AppRoute, AuthorizationStatus, RatitingNumber, RatitingText } from '../../enums/enum';
+import { AppRoute, AuthorizationStatus } from '../../enums/enum';
 import { useAppSelector } from '../../hooks';
 import { useGetFilmsProperty } from '../../hooks/load-films';
-import { getAllFilms } from '../../store/film-process/selectors';
+import { getCurrentFilm } from '../../store/film-process/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selector';
 
 function Film():JSX.Element{
   const {id} = useParams();
   useGetFilmsProperty(id as string);
-  const filmListAll = useAppSelector(getAllFilms);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const film = filmListAll.find((item)=> (item.id === Number(id)));
-  let Raiting = '';
-  if(film !== undefined){
-    switch(true){
-      case(film.rating <= RatitingNumber.Bad) : Raiting = RatitingText.Bad; break;
-      case(film.rating <= RatitingNumber.Normal) : Raiting = RatitingText.Normal; break;
-      case(film.rating <= RatitingNumber.Good) : Raiting = RatitingText.Good; break;
-      case(film.rating <= RatitingNumber.VeryGood) : Raiting = RatitingText.VeryGood; break;
-      case(film.rating === RatitingNumber.Awesome) : Raiting = RatitingText.Awesome; break;
-    }
-  }
+  const film = useAppSelector(getCurrentFilm);
   return(
-    <>
+    <div>
       {film !== undefined &&
       <section className="film-card film-card--full">
         <div className="film-card__hero">
@@ -84,28 +73,16 @@ function Film():JSX.Element{
             <div className="film-card__poster film-card__poster--big">
               <img src={film.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
             </div>
-
             <div className="film-card__desc">
               <MenuFilm film={film} />
-              <div className="film-rating">
-                <div className="film-rating__score">{film.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">{Raiting}</span>
-                  <span className="film-rating__count">{film.scoresCount}</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{film.description}</p>
-                <p className="film-card__director"><strong>Director: {film.director}</strong></p>
-                <p className="film-card__starring"><strong>Starring: {film.starring}</strong></p>
-              </div>
+              <Outlet />
             </div>
           </div>
         </div>
+        {film.id !== undefined &&
+        <FilmFooter typeFilms={film} />}
       </section>}
-      {<FilmFooter typeFilms={film} films={filmListAll} />}
-    </>
+    </div>
   );
 }
 export default Film;

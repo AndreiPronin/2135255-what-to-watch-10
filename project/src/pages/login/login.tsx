@@ -46,7 +46,7 @@ function Login(): JSX.Element {
           </Link>
         </div>
 
-        <h1 className="page-title user-page__title">Sign in</h1>
+        <h1 className="page-title user-page__title">{ authorizationStatus === AuthorizationStatus.Auth ? 'Sign out' : 'Sign in'}</h1>
       </header>
 
       <div className="sign-in user-page__content">

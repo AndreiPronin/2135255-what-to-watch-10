@@ -1,14 +1,13 @@
 import { useParams,useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import { useGetFilmsProperty } from '../../hooks/load-films';
-import { getAllFilms } from '../../store/film-process/selectors';
+import { getCurrentFilm } from '../../store/film-process/selectors';
 
 function Player():JSX.Element{
   const naveigate = useNavigate();
   const {id} = useParams();
   useGetFilmsProperty(id as string);
-  const filmListAll = useAppSelector(getAllFilms);
-  const film = filmListAll.filter((item)=> (item.id === Number(id)))[0];
+  const film = useAppSelector(getCurrentFilm);
   return(
 
     <div className="player">

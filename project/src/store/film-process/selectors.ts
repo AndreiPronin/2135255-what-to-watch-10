@@ -7,12 +7,14 @@ import { INITIAL_GENRE } from '../const';
 export const getAllGenre = (state: State): string[] => state[NameSpace.Data].allGenre;
 export const getActiveGenre = (state: State): string => state[NameSpace.Data].activeGenre;
 export const getAllFilms = (state: State): IFilm[] => state[NameSpace.Data].filmListAll;
+export const getSimilarFilm = (state: State): IFilm[] => state[NameSpace.Data].similarFilm;
 export const getAllComment = (state: State): IComment[] => state[NameSpace.Data].comment;
 export const getActiveFilmsCardsNumber = (state: State): number => state[NameSpace.Data].activeFilmsCardsNumber;
 export const getPromoFilm = (state: State): IFilm => state[NameSpace.Data].promo;
 export const getFavoreteFilms = (state: State): IFilm[] => state[NameSpace.Data].favoriteFilms;
 export const getLoad = (state:State): boolean => state[NameSpace.Data].isLoad;
 export const getError = (state:State): string => state[NameSpace.Data].error;
+export const getCurrentFilm = (state:State): IFilm => state[NameSpace.Data].currentFilm;
 
 export const filterFilms = createSelector(
   [getAllFilms,getActiveGenre,getActiveFilmsCardsNumber],
@@ -20,7 +22,7 @@ export const filterFilms = createSelector(
     if(activGenre === INITIAL_GENRE){
       return filmListAll.slice(0,activCardNumber);
     }else{
-      return filmListAll.filter(({ genre }) => genre === activGenre);
+      return filmListAll?.filter(({ genre }) => genre === activGenre);
     }
   }
 );

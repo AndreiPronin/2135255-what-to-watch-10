@@ -1,14 +1,21 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums/enum';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getFilmSimilar } from '../../services/api-action';
+import { getSimilarFilm } from '../../store/film-process/selectors';
 import { IFilm } from '../../types/type-films/Type-Films';
 import FilmList from '../film-list/film-list';
 interface IFilmsFooter{
   typeFilms:IFilm | null | undefined,
-  films:IFilm[]
 }
 
 function FilmFooter(props:IFilmsFooter):JSX.Element{
-  const ArrayShowMore = props.films.filter((item)=>(item.genre === props.typeFilms?.genre && item.name !== props.typeFilms.name));
+  const dispatch = useAppDispatch();
+  useEffect(()=>()=>{
+    dispatch(getFilmSimilar(String(props.typeFilms?.id)));
+  },[dispatch,props.typeFilms?.id]);
+  const ArrayShowMore = useAppSelector(getSimilarFilm);
   return(
     <div className="page-content">
       {ArrayShowMore.length > 0 &&

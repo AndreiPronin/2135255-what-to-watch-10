@@ -44,10 +44,8 @@ function MyList():JSX.Element{
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <div className="catalog__films-list">
-          {filmListAll.length === 0 &&
-          <p className="small-film-card__title">вапр</p>}
           {
-            filmListAll.map((film)=>
+            filmListAll?.map((film)=>
               <FilmCard key={film.id} film={film} isActiveVideo={Number(activVideo) === film.id} mouseOver={MouseOver} mouseOut={MouseOut} />
             )
           }

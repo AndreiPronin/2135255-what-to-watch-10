@@ -71,20 +71,30 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const getFilm = createAsyncThunk<void, string, {
+export const getFilmSimilar = createAsyncThunk<IFilm[], string, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'user/getFilm',
+  'data/getFilmSimilar',
   async (id, {dispatch, extra: api}) => {
-    try{
-      await api.get<IFilm>(`${APIRoute.Films}/${id}`);
-    }catch{
-      dispatch(redirectRoute(AppRoute.NotFound));
-    }
+    const {data} = await api.get<IFilm[]>(`${APIRoute.Films}/${id}/similar`);
+    return data;
   },
 );
+export const getFilm = createAsyncThunk<IFilm, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/getFilm',
+  async (id, {dispatch, extra: api}) => {
+    const {data} = await api.get<IFilm>(`${APIRoute.Films}/${id}`);
+    if(data === null){ dispatch(redirectRoute(AppRoute.NotFound)); }
+    return data;
+  },
+);
+
 
 export const loginAction = createAsyncThunk<void, UserData, {
   dispatch: AppDispatch,
