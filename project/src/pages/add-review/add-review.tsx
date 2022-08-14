@@ -6,7 +6,7 @@ import { useGetFilmsProperty } from '../../hooks/load-films';
 import { SaveComment } from '../../services/api-action';
 import { ERROR_SUBMIT_FORM_NEED_START } from '../../store/const';
 import { setError } from '../../store/film-process/film-process';
-import { getAllFilms, getError } from '../../store/film-process/selectors';
+import { getCurrentFilm, getError } from '../../store/film-process/selectors';
 import { SaveModelComment } from '../../types/type-films/Type-Films';
 import { reviewText } from '../const';
 
@@ -18,9 +18,8 @@ function AddReview():JSX.Element{
   });
   const {id} = useParams();
   const {dispatch} = useGetFilmsProperty(id as string);
-  const filmsListAll = useAppSelector(getAllFilms);
   const Error = useAppSelector(getError);
-  const film = filmsListAll.filter((item)=> (item.id === Number(id)))[0];
+  const film = useAppSelector(getCurrentFilm);
   const ArrayRaiting = [10,9,8,7,6,5,4,3,2,1];
   const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   const Comment : SaveModelComment = {
@@ -103,10 +102,10 @@ function AddReview():JSX.Element{
               <div className="rating__stars">
                 {
                   ArrayRaiting.map((i) =>(
-                    <>
-                      <input key={`Key${i}`} onChange={HandleChange} className="rating__input" id={`star-${i}`} type="radio" name="rating" value={i} />
+                    <React.Fragment key={`Key${i}`}>
+                      <input onChange={HandleChange} className="rating__input" id={`star-${i}`} type="radio" name="rating" value={i} />
                       <label className="rating__label" htmlFor={`star-${i}`}>Rating {i}</label>
-                    </>
+                    </React.Fragment>
                   ))
                 }
               </div>
