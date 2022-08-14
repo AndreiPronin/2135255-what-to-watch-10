@@ -1,7 +1,7 @@
 
-import { DateOption } from '../../enums/enum';
 import { useAppSelector } from '../../hooks';
 import { getAllComment } from '../../store/film-process/selectors';
+import ConvertToDate from '../../utils/convert-to-date';
 
 
 function FilmReview():JSX.Element{
@@ -17,8 +17,7 @@ function FilmReview():JSX.Element{
                   <p className="review__text">{Item.comment}</p>
                   <footer className="review__details">
                     <cite className="review__author">{Item.user.name}</cite>
-                    <time className="review__date">{new Date(Item.date).toLocaleString(
-                      DateOption.location, { year: DateOption.year, month: DateOption.month, day: DateOption.day })}
+                    <time className="review__date">{ConvertToDate(Item.date)}
                     </time>
                   </footer>
                 </blockquote>

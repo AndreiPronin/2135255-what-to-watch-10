@@ -14,7 +14,7 @@ function FilmCard(props:IPropsFilm):JSX.Element{
     <article onMouseOver={props.mouseOver} onMouseOut={props.mouseOut} data-id={props.film.id} className="small-film-card catalog__films-card">
       <VideoPlayer film={props.film} activeVideo={props.isActiveVideo} />
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`${AppRoute.Film}${props.film.id}`}>
+        <Link className="small-film-card__link" onClick={() =>{window.location.href = `${AppRoute.Film}${props.film.id}`;}} to={`${AppRoute.Film}${props.film.id}`}>
           {props.film.name} дата выхода {props.film.released}
         </Link>
       </h3>

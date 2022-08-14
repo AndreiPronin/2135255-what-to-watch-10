@@ -37,7 +37,7 @@ function AddReview():JSX.Element{
     }
     SetFormData({...formData, [name]: value});
   };
-  const handleSubmitLogin = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmitReviw = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if ( Comment.rating > 0 && Comment.comment !== '') {
       onSubmitLogin(Comment);
@@ -98,7 +98,7 @@ function AddReview():JSX.Element{
 
         <div className="add-review">
           <p>{Error}</p>
-          <form action="#" onSubmit={handleSubmitLogin} className="add-review__form">
+          <form action="#" onSubmit={handleSubmitReviw} className="add-review__form">
             <div className="rating">
               <div className="rating__stars">
                 {

@@ -15,7 +15,7 @@ function FilmFooter(props:IFilmsFooter):JSX.Element{
   useEffect(()=>()=>{
     dispatch(getFilmSimilar(String(props.typeFilms?.id)));
   },[dispatch,props.typeFilms?.id]);
-  const ArrayShowMore = useAppSelector(getSimilarFilm);
+  const ArrayShowMore = useAppSelector(getSimilarFilm).slice(0,4);
   return(
     <div className="page-content">
       {ArrayShowMore.length > 0 &&
