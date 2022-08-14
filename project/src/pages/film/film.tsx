@@ -36,11 +36,14 @@ function Film():JSX.Element{
             <ul className="user-block">
               <li className="user-block__item">
                 <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                  { (authorizationStatus === AuthorizationStatus.Auth ) &&
+                    <Link to={`${AppRoute.MyList}`} ><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link>}
+                  { (authorizationStatus === AuthorizationStatus.NoAuth || authorizationStatus === AuthorizationStatus.Unknown) &&
+                    <Link to={`${AppRoute.Login}`} ><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link>}
                 </div>
               </li>
               <li className="user-block__item">
-                <Link to={AppRoute.Login} className="user-block__link">Sign out</Link>
+                <Link to={AppRoute.Login} className="user-block__link">{authorizationStatus === AuthorizationStatus.Auth ? 'Sign out' : 'Sign in'}</Link>
               </li>
             </ul>
           </header>
@@ -58,7 +61,7 @@ function Film():JSX.Element{
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
-                  <span><Link to={`${AppRoute.Player}${film.id}`}>Play</Link></span>
+                  <span><Link style={{textDecoration:'none',color:'#eee5b5'}} to={`${AppRoute.Player}${film.id}`}>Play</Link></span>
                 </button>
                 <AddMyList film={film} />
                 { (authorizationStatus !== AuthorizationStatus.Unknown && authorizationStatus !== AuthorizationStatus.NoAuth) &&

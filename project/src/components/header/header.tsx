@@ -23,7 +23,10 @@ function Header(props:IPropsFilm):JSX.Element{
         <ul className="user-block">
           <li className="user-block__item">
             <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+              { (authorizationStatus === AuthorizationStatus.Auth ) &&
+                <Link to={`${AppRoute.MyList}`} ><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link>}
+              { (authorizationStatus === AuthorizationStatus.NoAuth || authorizationStatus === AuthorizationStatus.Unknown) &&
+                <Link to={`${AppRoute.Login}`} ><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link>}
             </div>
           </li>
           <li className="user-block__item">
