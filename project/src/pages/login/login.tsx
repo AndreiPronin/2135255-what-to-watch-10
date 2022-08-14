@@ -4,9 +4,12 @@ import {UserData} from '../../types/auth-data';
 import {FormEvent, useState} from 'react';
 import {loginAction, logoutAction} from '../../services/api-action';
 import { AppRoute, AuthorizationStatus } from '../../enums/enum';
+import { setError } from '../../store/film-process/film-process';
+import { getError } from '../../store/film-process/selectors';
 
 function Login(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
+  const Error = useAppSelector(getError);
   const dispatch = useAppDispatch();
   const [formData,SetFormData] = useState({
     userEmail:'',
@@ -24,7 +27,13 @@ function Login(): JSX.Element {
   };
   const onSubmitForm = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if ( formData.userEmail !== '' && formData.userPassword !== '') {
+    const PassRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/g;
+    if(!PassRegex.test(formData.userPassword)){
+      dispatch(setError('Пароль должен состоять минимум из одной буквы и цифры'));
+      return;
+    }
+    if ( formData.userEmail !== '') {
+      dispatch(setError(''));
       onSubmitLogin({
         login: formData.userEmail,
         password: formData.userPassword,
@@ -50,6 +59,7 @@ function Login(): JSX.Element {
       </header>
 
       <div className="sign-in user-page__content">
+        {Error === '' ? '' : `${Error}`}
         {
           ((authorizationStatus === AuthorizationStatus.NoAuth) || (authorizationStatus === AuthorizationStatus.Unknown)) && (
             <form action="#" className="sign-in__form" onSubmit={onSubmitForm}>
