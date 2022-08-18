@@ -64,8 +64,10 @@ function Film():JSX.Element{
                   <span><Link style={{textDecoration:'none',color:'#eee5b5'}} to={`${AppRoute.Player}${film.id}`}>Play</Link></span>
                 </button>
                 <AddMyList film={film} />
-                { (authorizationStatus !== AuthorizationStatus.Unknown && authorizationStatus !== AuthorizationStatus.NoAuth) &&
+                { (authorizationStatus === AuthorizationStatus.Auth) &&
                 <Link to={`${AppRoute.AddReview}${film.id}`} className="btn film-card__button">Add review</Link>}
+                { (authorizationStatus === AuthorizationStatus.Unknown || authorizationStatus === AuthorizationStatus.NoAuth) &&
+                <Link to={`${AppRoute.Login}`} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>

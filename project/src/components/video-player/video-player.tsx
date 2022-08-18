@@ -7,7 +7,7 @@ interface IPropsFilm{
 function VideoPlayer(props:IPropsFilm):JSX.Element{
   if(props.activeVideo === true){
     return(
-      <video src={props.film.previewVideoLink} poster={props.film.previewImage} width="280" height="175" controls autoPlay muted ></video>
+      <video src={props.film.previewVideoLink} poster={props.film.previewImage} width="280" height="175" controls autoPlay muted data-testid='video' ></video>
     );
   }else{
     return(

@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import HistoryRouter from '../history-rout/history-rout';
 import App from './app';
 import thunk from 'redux-thunk';
-import { AllFilms } from '../../Moq/Films-List';
+import { AllFilms,Promo } from '../../Moq/Films-List';
 
 const middlewares = [thunk];
 
@@ -15,7 +15,7 @@ const mockStore = configureMockStore(middlewares);
 
 const store = mockStore({
   USER: {authorizationStatus: AuthorizationStatus.Auth},
-  DATA: {isLoad: false , favoriteFilms: AllFilms},
+  DATA: {isLoad: false , favoriteFilms: AllFilms, filmListAll : AllFilms, promo: Promo, currentFilm: Promo},
 });
 
 const history = createMemoryHistory();
@@ -44,5 +44,20 @@ describe('Application Routing', () => {
     history.push(AppRoute.MyList);
     render(fakeApp);
     expect(screen.getByText(/My list/i)).toBeInTheDocument();
+  });
+  it('should render "Main" test', () => {
+    history.push(AppRoute.Main);
+    render(fakeApp);
+    expect(screen.getByText(/What to watch Ltd./i)).toBeInTheDocument();
+  });
+  it('should render "Film" test', () => {
+    history.push(`${AppRoute.Film}/1234`);
+    render(fakeApp);
+    expect(screen.getByText(/404/i)).toBeInTheDocument();
+  });
+  it('should render "AddReview" test', () => {
+    history.push(`${AppRoute.AddReview}/1234`);
+    render(fakeApp);
+    expect(screen.getByText(/404/i)).toBeInTheDocument();
   });
 });

@@ -20,14 +20,14 @@ function AddReview():JSX.Element{
   const {dispatch} = useGetFilmsProperty(id as string);
   const Error = useAppSelector(getError);
   const film = useAppSelector(getCurrentFilm);
-  const ArrayRaiting = [10,9,8,7,6,5,4,3,2,1];
+  const ratings = [10,9,8,7,6,5,4,3,2,1];
   const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
   const Comment : SaveModelComment = {
     idFilms: id as string,
     comment:formData.reviewText,
     rating: Number(formData.rating)
   };
-  const HandleChange = (e:React.ChangeEvent) =>{
+  const handleChange = (e:React.ChangeEvent) =>{
     const {name,value} = e.target as HTMLInputElement;
     if(formData.reviewText.length > reviewText.minLenght && formData.reviewText.length < reviewText.maxLenght){
       formData.isShowButon = true;
@@ -70,10 +70,10 @@ function AddReview():JSX.Element{
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <Link className="breadcrumbs__link" to={`${AppRoute.Film}${film.id}` }>The Grand Budapest Hotel</Link>
+                  <Link className="breadcrumbs__link" to={`${AppRoute.Film}${film.id}` }>{film.name}</Link>
                 </li>
                 <li className="breadcrumbs__item">
-                  <Link to={`${AppRoute.AddReview}/${id}`} className="breadcrumbs__link">Add review</Link>
+                  <span className="breadcrumbs__link">Add review</span>
                 </li>
               </ul>
             </nav>
@@ -101,9 +101,9 @@ function AddReview():JSX.Element{
             <div className="rating">
               <div className="rating__stars">
                 {
-                  ArrayRaiting.map((i) =>(
+                  ratings.map((i) =>(
                     <React.Fragment key={`Key${i}`}>
-                      <input onChange={HandleChange} className="rating__input" id={`star-${i}`} type="radio" name="rating" value={i} />
+                      <input onChange={handleChange} className="rating__input" id={`star-${i}`} type="radio" name="rating" value={i} />
                       <label className="rating__label" htmlFor={`star-${i}`}>Rating {i}</label>
                     </React.Fragment>
                   ))
@@ -111,7 +111,7 @@ function AddReview():JSX.Element{
               </div>
             </div>
             <div className="add-review__text">
-              <textarea onChange={HandleChange} className="add-review__textarea" name="reviewText" id="review-text" placeholder="Review text. Please enter > 50 and < 400 symbol"></textarea>
+              <textarea onChange={handleChange} className="add-review__textarea" name="reviewText" id="review-text" placeholder="Review text. Please enter > 50 and < 400 symbol"></textarea>
               <div className="add-review__submit">
                 {formData.isShowButon &&
                 <button className="add-review__btn" type='submit' >Post</button>}

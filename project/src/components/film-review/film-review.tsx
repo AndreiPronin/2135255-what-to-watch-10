@@ -1,7 +1,7 @@
 
 import { useAppSelector } from '../../hooks';
 import { getAllComment } from '../../store/film-process/selectors';
-import ConvertToDate from '../../utils/convert-to-date';
+import getConvertDate from '../../utils/get-convert-date';
 
 
 function FilmReview():JSX.Element{
@@ -17,7 +17,7 @@ function FilmReview():JSX.Element{
                   <p className="review__text">{Item.comment}</p>
                   <footer className="review__details">
                     <cite className="review__author">{Item.user.name}</cite>
-                    <time className="review__date">{ConvertToDate(Item.date)}
+                    <time className="review__date">{getConvertDate(Item.date)}
                     </time>
                   </footer>
                 </blockquote>

@@ -4,8 +4,6 @@ import FilmNavigate from '../../components/film-navigate/film-navigate';
 import Header from '../../components/header/header';
 import { useAppDispatch,useAppSelector } from '../../hooks';
 import { showMoreFilms } from '../../store/film-process/film-process';
-//import {getQuantityFilms} from '../../store/selectors';
-//import { useSelector } from 'react-redux';
 import { getAllFilmAction, getPromoFilmAction } from '../../services/api-action';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../enums/enum';

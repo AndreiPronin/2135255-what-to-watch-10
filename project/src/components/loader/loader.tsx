@@ -7,7 +7,7 @@ function Loader():JSX.Element{
 
   if(isLoad === true){
     return (
-      <div className="loader">
+      <div data-testid='loader' className="loader">
         <div className="inner one"></div>
         <div className="inner two"></div>
         <div className="inner three"></div>
@@ -15,7 +15,7 @@ function Loader():JSX.Element{
     );
   }else{
     return (
-      <div></div>
+      <div data-testid='no-loader'></div>
     );
   }
 }
